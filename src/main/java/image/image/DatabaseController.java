@@ -8,7 +8,7 @@ public class DatabaseController {
 	
 
 	}
-	private static void loadDatabase(){
+	public static void loadDatabase(){
 		 try{
 	           Class.forName("com.mysql.jdbc.Driver");
 	        }catch(ClassNotFoundException e){
@@ -72,6 +72,44 @@ public class DatabaseController {
 			            }  
 			         }  
 
+	}
+	public static ArrayList<ImageKey> getImageKey(String tableName){
+		ArrayList<ImageKey> ikList=new ArrayList<ImageKey>();
+		
+		String sql="select * from "+tableName;
+		try {
+			ResultSet rs=stmt.executeQuery(sql);
+			
+			
+			while(rs.next()){
+				ImageKey ik=new ImageKey();
+				double[] imageKey=new double[30];
+				ik.setPath(rs.getString(1));
+				ik.setC(rs.getString(2));
+				for(int i=0;i<30;i++){
+					imageKey[i]=rs.getDouble(i+3);
+				}
+			    ik.setImageKey(imageKey);
+			    ikList.add(ik);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ikList;
+	}
+	public static void close(){
+		if(stmt!=null){
+			try {
+				stmt.close();
+				 conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
+		}
+	
 	}
 	private  static String makeSql(ImageKey ik,String tableName){
 		String result="insert into "+tableName+" values(";
