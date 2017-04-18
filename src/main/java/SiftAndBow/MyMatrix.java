@@ -10,6 +10,21 @@ public class MyMatrix extends Matrix{
 	private int rows;
 	private int cols;
 
+	public void transRows(int i,int j){
+		double[] temp = new double[cols];
+		temp = data[i].clone();
+		data[i] = data[j].clone();
+		data[j] = temp.clone();
+	}
+
+	public void transCols(int i,int j){
+		double[] temp = new double[rows];
+		temp = this.getCol(i).clone();
+		this.setCols(i,this.getCol(j).clone());
+		this.setCols(j,temp.clone());
+
+	}
+
 	public MyMatrix(double[][] data){
 		super(data);
 		this.data = data.clone();
@@ -89,6 +104,12 @@ public class MyMatrix extends Matrix{
 		}
 		return result;
 
+	}
+
+	public void setCols(int i,double[] col){
+		for (int j = 0;j<rows;j++){
+			data[j][i] = col[j];
+		}
 	}
 
 	public void setRows(int i,double[] row){

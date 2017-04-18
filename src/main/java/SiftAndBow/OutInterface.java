@@ -14,7 +14,7 @@ public class OutInterface {
 	HashMap<String,double[]> result = new HashMap<>();
 
 	public void trainATest(String trainPath,String testPath,int K) throws IOException {
-		ClusterPic cluster = new ClusterPic();
+
 		cluster.setDictionary(trainPath,K);
 		double[][] testDic = cluster.getDictionary();
 		for (int i = 0;i<testDic.length;i++){
@@ -25,7 +25,7 @@ public class OutInterface {
 		}
 
 
-		HashMap<String,double[]> result = cluster.getPicWord(testPath);
+		result = cluster.getPicWord(testPath);
 
 		for(Map.Entry<String,double[]> pic:result.entrySet()
 				){
