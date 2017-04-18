@@ -165,6 +165,7 @@ public class MyKmeans implements ClusterInterface {
 	private void calMeans(){
 
 		for(int m=0;m<K;m++) {
+//			System.out.println(map.size());
 			int nums = map.get(m).size();
 			double[] sum = new double[cols];
 			for(int i=0;i<nums;i++){

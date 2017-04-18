@@ -46,12 +46,16 @@ public class SpectralClustering implements ClusterInterface {
 		this.centers = new double[K][data[0].length];
 	}
 
+//	相似度计算，高斯相似度函数过小？普通欧氏距离？
 	private double culSimilarity(double[] arr1,double[] arr2){
 		double result = 0;
 		for(int i=0;i<arr1.length;i++){
 			result += Math.pow((arr1[i]-arr2[i]),2);
 		}
-		result = Math.exp(-(result)/(2*sigma));
+//		System.out.println(result);
+//		高斯相似度 TODO
+//		result = Math.exp(-(result)/(2*sigma));
+		result = Math.sqrt(result);
 		return result;
 	}
 
@@ -87,24 +91,49 @@ public class SpectralClustering implements ClusterInterface {
 		}
 
 	}
-//TODO
+//TODO 计算拉普拉斯矩阵 ，公式为L = D-W,L = D^-1/2*L*D^-1/2
 	private void culLmatrix(){
+
+//		for (int i=0;i<Dmatrix.substract(Wmatrix).getData().length;i++){
+//			for (int j=0;j<Dmatrix.substract(Wmatrix).getData()[0].length;j++){
+//				System.out.print(Dmatrix.substract(Wmatrix).getData()[i][j]+";");
+//			}
+//			System.out.println();
+//		}
+
+//		Matrix afterSub = Dmatrix.substract(Wmatrix);
+		Lmatrix = Dmatrix.substract(Wmatrix);
+//		for (int i=0;i<Lmatrix.getData().length;i++){
+//			for (int j=0;j<Lmatrix.getData()[0].length;j++){
+//				System.out.print(Lmatrix.getData()[i][j]+";");
+//			}
+//			System.out.println();
+//		}
 
 		MyMatrix sqrtDM = this.Dmatrix.clone();
 		for (int i=0;i<Dmatrix.rows();i++){
-			sqrtDM.set(i,i,Math.sqrt(Dmatrix.get(i,i)));
+			sqrtDM.set(i,i,1/Math.sqrt(Dmatrix.get(i,i)));
 		}
 
-		Lmatrix = (MyMatrix) sqrtDM.times(Wmatrix);
-		Lmatrix = (MyMatrix) Lmatrix.times(sqrtDM);
+
+
+		Lmatrix.setMatrix(sqrtDM.times(Lmatrix));
+		for (int i=0;i<Lmatrix.getData().length;i++){
+			for (int j=0;j<Lmatrix.getData().length;j++){
+				System.out.print(Lmatrix.getData()[i][j]+";");
+			}
+			System.out.println();
+		}
+		Lmatrix.setMatrix(Lmatrix.times(sqrtDM));
 
 	}
 
 	private void getKEIG(){
 //		特征值对角阵
-		MyMatrix eigD = (MyMatrix) Lmatrix.eig().getD();
+		MyMatrix eigD = new MyMatrix(Lmatrix.eig().getD().getArray());
+
 //		特征向量矩阵，按列排序
-		MyMatrix eigV = (MyMatrix) Lmatrix.eig().getV();
+		MyMatrix eigV = new MyMatrix(Lmatrix.eig().getV().getArray());
 
 //	获取特征值
 		double[] eigDd = new double[eigD.rows()];
@@ -147,6 +176,14 @@ public class SpectralClustering implements ClusterInterface {
 	private HashMap<Integer,List<Integer>> getKmeans(){
 
 		MyKmeans kmeans = new MyKmeans(K,NEigMatrix.getData());
+
+		for (int i=0;i<NEigMatrix.getData().length;i++){
+			for (int j=0;j<NEigMatrix.getData()[0].length;j++){
+				System.out.print(NEigMatrix.getData()[i][j]+";");
+			}
+			System.out.println();
+		}
+
 		double[][] center = kmeans.cluster(NEigMatrix.getData());
 		HashMap<Integer,List<Integer>> result = kmeans.getIndexMap();
 		this.indexMap = result;
@@ -187,14 +224,51 @@ public class SpectralClustering implements ClusterInterface {
 	public double[][] cluster(double[][] data) {
 		this.setData(data);
 		this.culWmatrix();
+
+
 		this.setDiagZero(Wmatrix);
 		this.culDmatrix();
 		this.culLmatrix();
-		this.getKEIG();
-		this.normalizeEig();
-		this.getKmeans();
-		this.culCenters();
+
+		for (int i=0;i<Lmatrix.getData().length;i++){
+			for (int j=0;j<Lmatrix.getData()[0].length;j++){
+				System.out.print(Lmatrix.getData()[i][j]+";");
+			}
+			System.out.println();
+		}
+
+
+//		this.getKEIG();
+//		this.normalizeEig();
+//		this.getKmeans();
+//		this.culCenters();
 
 		return this.centers;
+	}
+
+	public static void main(String[] args) {
+		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80}};
+		SpectralClustering testKm = new SpectralClustering(test,3,1);
+		double[][] result = testKm.cluster(test);
+
+//
+//		double[][] test = new double[][]{{0,0},{1,1}};
+//		MyMatrix m = new MyMatrix(test);
+//		for (int i=0;i<m.getArray().length;i++){
+//			for (int j=0;j<m.getArray().length;j++){
+//				System.out.print(m.times(m).getArray()[i][j]+";");
+//			}
+//			System.out.println();
+//		}
+
+
+//		for (int i=0;i<result.length;i++){
+//			for (int j=0;j<result[0].length;j++){
+//				System.out.print(result[i][j]+";");
+//
+//			}
+//			System.out.println();
+//		}
+
 	}
 }

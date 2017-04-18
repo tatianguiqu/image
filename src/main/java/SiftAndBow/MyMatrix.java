@@ -25,6 +25,16 @@ public class MyMatrix extends Matrix{
 
 	}
 
+	public MyMatrix setMatrix(Matrix m){
+//		for (int i=0;i<m.getArrayCopy().length;i++){
+//			for (int j=0;j<m.getArrayCopy()[0].length;j++){
+//				System.out.print(m.getArrayCopy()[i][j]+";");
+//			}
+//			System.out.println();
+//		}
+		this.data = m.getArrayCopy();
+		return new MyMatrix(this.data);
+	}
 
 	public MyMatrix(double[][] data){
 
@@ -42,6 +52,19 @@ public class MyMatrix extends Matrix{
 		this.cols = cols;
 	}
 
+
+	public MyMatrix substract(MyMatrix m){
+		MyMatrix result =new MyMatrix(rows(),cols);
+		for (int i=0;i<rows;i++){
+			for (int j=0;j<cols;j++){
+				result.set(i,j,data[i][j]-m.get(i,j));
+//				System.out.println(result.get(i,j));
+			}
+		}
+		return result;
+
+
+	}
 
 
 	public double[][] getData(){
