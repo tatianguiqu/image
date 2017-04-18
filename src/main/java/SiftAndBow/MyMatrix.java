@@ -25,7 +25,9 @@ public class MyMatrix extends Matrix{
 
 	}
 
+
 	public MyMatrix(double[][] data){
+
 		super(data);
 		this.data = data.clone();
 		this.rows = data.length;
@@ -59,7 +61,7 @@ public class MyMatrix extends Matrix{
 
 	}
 
-	public int col(){
+	public int cols(){
 
 		return this.cols;
 
@@ -82,14 +84,51 @@ public class MyMatrix extends Matrix{
 
 
 	}
+
+	public void dotSqrt(){
+
+		for (int i=0 ; i<rows;i++){
+			for (int j = 0;j<cols;j++){
+				data[i][j] = Math.sqrt(data[i][j]);
+			}
+		}
+
+	}
+//	矩阵的点乘
+	public MyMatrix dotMultiply(MyMatrix m){
+
+		MyMatrix result = new MyMatrix(rows,cols);
+		for (int i=0;i<rows;i++){
+			for (int j=0;j<cols;j++){
+				result.set(i,j,data[i][j]*m.get(i,j));
+			}
+		}
+
+		return result;
+
+	}
+
+
 //TODO
 	public MyMatrix multiply(MyMatrix m){
 		int rowN = rows;
-		int colN = m.col();
-		MyMatrix result = new MyMatrix(rows,m.col());
+		int colN = m.cols();
+		MyMatrix result = new MyMatrix(rows,m.cols());
 		for (int i=0;i<rowN;i++){
 			for (int j=0;j<colN;j++){
 				result.set(i,j,this.dArrayMultiply(data[i],m.getCol(j)));
+			}
+		}
+		return result;
+
+	}
+
+	public double[] colSum(){
+		double[] result = new double[cols];
+		for (int i=0;i<cols;i++){
+			result[i]=0;
+			for (int j=0;j<rows;j++){
+				result[i] += data[j][i];
 			}
 		}
 		return result;

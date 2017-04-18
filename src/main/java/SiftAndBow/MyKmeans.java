@@ -16,6 +16,8 @@ public class MyKmeans implements ClusterInterface {
 	private int cols;
 
 
+//每个簇对应的数据的下标
+	private HashMap<Integer,List<Integer>> indexMap = new HashMap<>();
 //记录数据对应的簇
 	private HashMap<Integer, List<List<Double>>> map = new HashMap<>();
 
@@ -43,6 +45,17 @@ public class MyKmeans implements ClusterInterface {
 		centres = new double[K][cols];
 		this.K = K;
 
+	}
+
+	public HashMap<Integer,List<Integer>> getIndexMap(){
+
+		return this.indexMap;
+
+	}
+
+
+	public HashMap<Integer, List<List<Double>>> getMap(){
+		return this.map;
 	}
 
 	private void iniData(double[][] data){
@@ -211,6 +224,8 @@ public class MyKmeans implements ClusterInterface {
 		return result;
 	}
 
+
+
 	/**
 	 * 主要算法
 	 * @param sdata 需要聚类的数据，
@@ -235,15 +250,30 @@ public class MyKmeans implements ClusterInterface {
 
 
 //			保留中心位置，清空记录，进行下次迭代
+			indexMap.clear();
 			map.clear();
 //			double[][] tempCen = centres;
 
 			int count = 0;
-			for (double[] arr : this.data) {
+//			for (double[] arr : this.data) {
+			for (int i=0;i<this.data.length;i++){
 //				System.out.println(printFormat(convertDArray(arr))+"????");
 //				将数据聚类
-				int label = this.runCluster(arr);
-//				System.out.println(convertDArray(arr).get(0));
+				int label = this.runCluster(data[i]);
+
+
+				if(!indexMap.containsKey(label)){
+					List<Integer> getL = new ArrayList<>();
+					getL.add(i);
+					indexMap.put(label,getL);
+				}else{
+					List<Integer> getL = indexMap.get(label);
+					getL.add(i);
+					indexMap.put(label,getL);
+				}
+
+//
+// System.out.println(convertDArray(arr).get(0));
 			}
 //				重新计算中心
 //				System.out.println("!");
