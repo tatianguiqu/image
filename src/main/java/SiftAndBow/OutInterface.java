@@ -10,8 +10,10 @@ import java.util.Map;
  */
 public class OutInterface {
 
-	public ArrayList<String> getTopF(String picPath,String trainPath,String testPath,int K) throws IOException {
+	static ClusterPic cluster = new ClusterPic();
+	HashMap<String,double[]> result = new HashMap<>();
 
+	public void trainATest(String trainPath,String testPath,int K) throws IOException {
 		ClusterPic cluster = new ClusterPic();
 		cluster.setDictionary(trainPath,K);
 		double[][] testDic = cluster.getDictionary();
@@ -34,6 +36,12 @@ public class OutInterface {
 			}
 			System.out.println();
 		}
+	}
+
+
+	public ArrayList<String> getTopF(String picPath) throws IOException {
+
+
 
 		HashMap<String,double[]> toFind = cluster.getPicWord(picPath);
 		double[] picWord = toFind.get(picPath);
@@ -71,7 +79,8 @@ public class OutInterface {
 
 	public static void main(String[] args) throws IOException {
 		OutInterface test = new OutInterface();
-		ArrayList<String> tpf = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg","D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
+		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
+		ArrayList<String> tpf = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
 
 	}
 
