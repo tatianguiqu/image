@@ -1,4 +1,4 @@
-package src.main.java.SiftAndBow;
+package SiftAndBow;
 
 import java.io.IOException;
 import java.util.ArrayList;

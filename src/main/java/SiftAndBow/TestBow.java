@@ -1,4 +1,4 @@
-package src.main.java.SiftAndBow;
+package SiftAndBow;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;

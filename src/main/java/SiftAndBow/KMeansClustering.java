@@ -1,4 +1,4 @@
-package src.main.java.SiftAndBow; /**
+package SiftAndBow;  /**
  * Created by QQQ on 2017/4/6.
  */
 /**
