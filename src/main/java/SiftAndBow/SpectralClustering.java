@@ -1,6 +1,5 @@
-package SiftAndBow;
-import SiftAndBow.ClusterInterface;
-import SiftAndBow.MyMatrix;
+package src.main.java.SiftAndBow;
+
 
 /**
  * Created by QQQ on 2017/4/16.
@@ -77,6 +76,11 @@ public class SpectralClustering implements ClusterInterface {
 		for (int i=0;i<Dmatrix.rows();i++){
 			sqrtDM.set(i,i,Math.sqrt(Dmatrix.get(i,i)));
 		}
+
+		Lmatrix = (MyMatrix) sqrtDM.times(Wmatrix);
+		Lmatrix = (MyMatrix) Lmatrix.times(sqrtDM);
+
+
 
 	}
 

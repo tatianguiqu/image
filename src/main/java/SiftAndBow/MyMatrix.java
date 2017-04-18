@@ -1,14 +1,17 @@
-package SiftAndBow;
+package src.main.java.SiftAndBow;
+
+import Jama.Matrix;
 
 /**
  * Created by QQQ on 2017/4/16.
  */
-public class MyMatrix {
+public class MyMatrix extends Matrix{
 	private double[][] data;
 	private int rows;
 	private int cols;
 
 	public MyMatrix(double[][] data){
+		super(data);
 		this.data = data.clone();
 		this.rows = data.length;
 		this.cols = data[0].length;
@@ -16,6 +19,7 @@ public class MyMatrix {
 	}
 
 	public MyMatrix(int rows,int cols){
+		super(rows,cols);
 		this.data = new double[rows][cols];
 		this.rows = rows;
 		this.cols = cols;
@@ -70,10 +74,10 @@ public class MyMatrix {
 		MyMatrix result = new MyMatrix(rows,m.col());
 		for (int i=0;i<rowN;i++){
 			for (int j=0;j<colN;j++){
-
+				result.set(i,j,this.dArrayMultiply(data[i],m.getCol(j)));
 			}
 		}
-		return null;
+		return result;
 
 	}
 

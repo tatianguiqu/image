@@ -1,4 +1,4 @@
-package SiftAndBow;
+package src.main.java.SiftAndBow;
 
 
 

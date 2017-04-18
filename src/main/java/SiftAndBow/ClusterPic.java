@@ -1,4 +1,4 @@
-package SiftAndBow; /**
+package src.main.java.SiftAndBow; /**
  * Created by QQQ on 2017/4/11.
  */
 
@@ -217,7 +217,7 @@ public class ClusterPic {
 	 * @param arr2
 	 * @return
 	 */
-	private double calDis(double[] arr1,double[] arr2){
+	double calDis(double[] arr1, double[] arr2){
 		double result = 0;
 		for(int i=0;i<arr1.length;i++){
 			result += Math.pow((arr1[i]-arr2[i]),2);
@@ -234,62 +234,62 @@ public class ClusterPic {
 
 
 
-	public static void main(String[] args) throws IOException {
-		ClusterPic test = new ClusterPic();
-		test.setDictionary("D:\\GraduationProject\\data_x\\TestBow\\train",30);
-		double[][] testDic = test.getDictionary();
-		for (int i = 0;i<testDic.length;i++){
-			for (int j=0;j<testDic[0].length;j++){
-				System.out.print(testDic[i][j]);
-			}
-			System.out.println();
-		}
-
-
-		HashMap<String,double[]> result = test.getPicWord("D:\\GraduationProject\\data_x\\TestBow\\test_1");
-
-		for(Map.Entry<String,double[]> pic:result.entrySet()
-				){
-			System.out.println(pic.getKey()+":");
-			double[] word = pic.getValue().clone();
-			for (double d:word){
-				System.out.print(d+";");
-			}
-			System.out.println();
-		}
-
-		HashMap<String,double[]> toFind = test.getPicWord("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
-		double[] picWord = toFind.get("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
-		double minest = 200000000;
-		ArrayList<Double> minDis = new ArrayList<>();
-		for (int i = 0;i<6;i++){
-			minDis.add(i, (double) 200000000);
-		}
-		ArrayList<String> topFive = new ArrayList<String>();
-		for(Map.Entry<String,double[]> pic:result.entrySet()
-				){
-			double temp = test.calDis(pic.getValue().clone(),picWord);
-			if (temp< minest){
-				minest = temp;
-				topFive.add(0,pic.getKey());
-				minDis.add(0,temp);
-			}else{
-				for(int i =0;i<5;i++){
-					if(temp>minDis.get(i)&&temp<minDis.get(i+1)){
-						minDis.add(i+1,temp);
-						topFive.add(i+1,pic.getKey());
-					}
-
-				}
-			}
-		}
-
-		for (int i=0;i<5;i++){
-			System.out.println("Match "+i+":"+topFive.get(i));
-		}
-//		System.out.println(matchPic+" match best.");
-
-	}
+//	public static void main(String[] args) throws IOException {
+//		ClusterPic test = new ClusterPic();
+//		test.setDictionary("D:\\GraduationProject\\data_x\\TestBow\\train",30);
+//		double[][] testDic = test.getDictionary();
+//		for (int i = 0;i<testDic.length;i++){
+//			for (int j=0;j<testDic[0].length;j++){
+//				System.out.print(testDic[i][j]);
+//			}
+//			System.out.println();
+//		}
+//
+//
+//		HashMap<String,double[]> result = test.getPicWord("D:\\GraduationProject\\data_x\\TestBow\\test_1");
+//
+//		for(Map.Entry<String,double[]> pic:result.entrySet()
+//				){
+//			System.out.println(pic.getKey()+":");
+//			double[] word = pic.getValue().clone();
+//			for (double d:word){
+//				System.out.print(d+";");
+//			}
+//			System.out.println();
+//		}
+//
+//		HashMap<String,double[]> toFind = test.getPicWord("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
+//		double[] picWord = toFind.get("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
+//		double minest = 200000000;
+//		ArrayList<Double> minDis = new ArrayList<>();
+//		for (int i = 0;i<6;i++){
+//			minDis.add(i, (double) 200000000);
+//		}
+//		ArrayList<String> topFive = new ArrayList<String>();
+//		for(Map.Entry<String,double[]> pic:result.entrySet()
+//				){
+//			double temp = test.calDis(pic.getValue().clone(),picWord);
+//			if (temp< minest){
+//				minest = temp;
+//				topFive.add(0,pic.getKey());
+//				minDis.add(0,temp);
+//			}else{
+//				for(int i =0;i<5;i++){
+//					if(temp>minDis.get(i)&&temp<minDis.get(i+1)){
+//						minDis.add(i+1,temp);
+//						topFive.add(i+1,pic.getKey());
+//					}
+//
+//				}
+//			}
+//		}
+//
+//		for (int i=0;i<5;i++){
+//			System.out.println("Match "+i+":"+topFive.get(i));
+//		}
+////		System.out.println(matchPic+" match best.");
+//
+//	}
 
 
 }
