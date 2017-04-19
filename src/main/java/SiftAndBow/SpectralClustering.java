@@ -54,8 +54,8 @@ public class SpectralClustering implements ClusterInterface {
 		}
 //		System.out.println(result);
 //		高斯相似度 TODO
-//		result = Math.exp(-(result)/(2*sigma));
-		result = Math.sqrt(result);
+		result = Math.exp(-(result)/(2*sigma));
+//		result = Math.sqrt(result);
 		return result;
 	}
 
@@ -94,14 +94,6 @@ public class SpectralClustering implements ClusterInterface {
 //TODO 计算拉普拉斯矩阵 ，公式为L = D-W,L = D^-1/2*L*D^-1/2
 	private void culLmatrix(){
 
-//		for (int i=0;i<Dmatrix.substract(Wmatrix).getData().length;i++){
-//			for (int j=0;j<Dmatrix.substract(Wmatrix).getData()[0].length;j++){
-//				System.out.print(Dmatrix.substract(Wmatrix).getData()[i][j]+";");
-//			}
-//			System.out.println();
-//		}
-
-//		Matrix afterSub = Dmatrix.substract(Wmatrix);
 		Lmatrix = Dmatrix.substract(Wmatrix);
 //		for (int i=0;i<Lmatrix.getData().length;i++){
 //			for (int j=0;j<Lmatrix.getData()[0].length;j++){
@@ -117,13 +109,14 @@ public class SpectralClustering implements ClusterInterface {
 
 
 
-		Lmatrix.setMatrix(sqrtDM.times(Lmatrix));
-		for (int i=0;i<Lmatrix.getData().length;i++){
-			for (int j=0;j<Lmatrix.getData().length;j++){
-				System.out.print(Lmatrix.getData()[i][j]+";");
-			}
-			System.out.println();
-		}
+
+		Lmatrix.setMatrix(Lmatrix.times(Lmatrix));
+//		for (int i=0;i<Lmatrix.getData().length;i++){
+//			for (int j=0;j<Lmatrix.getData().length;j++){
+//				System.out.print(Lmatrix.getData()[i][j]+";");
+//			}
+//			System.out.println();
+//		}
 		Lmatrix.setMatrix(Lmatrix.times(sqrtDM));
 
 	}
@@ -132,27 +125,31 @@ public class SpectralClustering implements ClusterInterface {
 //		特征值对角阵
 		MyMatrix eigD = new MyMatrix(Lmatrix.eig().getD().getArray());
 
+//		this.printMatrix(eigD);
 //		特征向量矩阵，按列排序
+//		System.out.println();
 		MyMatrix eigV = new MyMatrix(Lmatrix.eig().getV().getArray());
-
+//		this.printMatrix(eigV);
 //	获取特征值
 		double[] eigDd = new double[eigD.rows()];
 		for (int i = 0;i<eigD.rows();i++){
 			eigDd[i] = eigD.get(i,i);
 		}
 
+
 //	排序
 		for (int i=0;i<K;i++){
 			double tempM = eigDd[0];
 			int index = 0;
+			EigMatrix.setCols(i,eigV.getCol(0));
 			for (int j=0;j<eigDd.length;j++){
-				if(eigDd[j]>tempM){
+				if(eigDd[j]<tempM){
 					tempM = eigDd[j];
 					EigMatrix.setCols(i,eigV.getCol(j));
 					index = j;
 				}
 			}
-			eigDd[index] = eigDd[0]-1;
+			eigDd[index] = eigDd[0]+1;
 		}
 
 
@@ -176,13 +173,6 @@ public class SpectralClustering implements ClusterInterface {
 	private HashMap<Integer,List<Integer>> getKmeans(){
 
 		MyKmeans kmeans = new MyKmeans(K,NEigMatrix.getData());
-
-		for (int i=0;i<NEigMatrix.getData().length;i++){
-			for (int j=0;j<NEigMatrix.getData()[0].length;j++){
-				System.out.print(NEigMatrix.getData()[i][j]+";");
-			}
-			System.out.println();
-		}
 
 		double[][] center = kmeans.cluster(NEigMatrix.getData());
 		HashMap<Integer,List<Integer>> result = kmeans.getIndexMap();
@@ -227,24 +217,38 @@ public class SpectralClustering implements ClusterInterface {
 
 
 		this.setDiagZero(Wmatrix);
+//		this.printMatrix(Wmatrix);
 		this.culDmatrix();
+//		this.printMatrix(Dmatrix);
+
 		this.culLmatrix();
 
-		for (int i=0;i<Lmatrix.getData().length;i++){
-			for (int j=0;j<Lmatrix.getData()[0].length;j++){
-				System.out.print(Lmatrix.getData()[i][j]+";");
+//		this.printMatrix(Lmatrix);
+		this.getKEIG();
+
+//		this.printMatrix(EigMatrix);
+
+		this.normalizeEig();
+
+//		this.printMatrix(NEigMatrix);
+
+		this.getKmeans();
+		this.culCenters();
+
+		return this.centers;
+	}
+
+	private void printMatrix(MyMatrix m){
+
+		for (int i=0;i<m.rows();i++){
+			for (int j = 0;j<m.cols();j++){
+				System.out.print(m.get(i,j)+";");
 			}
 			System.out.println();
 		}
 
-
-//		this.getKEIG();
-//		this.normalizeEig();
-//		this.getKmeans();
-//		this.culCenters();
-
-		return this.centers;
 	}
+
 
 	public static void main(String[] args) {
 		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80}};
@@ -262,13 +266,13 @@ public class SpectralClustering implements ClusterInterface {
 //		}
 
 
-//		for (int i=0;i<result.length;i++){
-//			for (int j=0;j<result[0].length;j++){
-//				System.out.print(result[i][j]+";");
-//
-//			}
-//			System.out.println();
-//		}
+		for (int i=0;i<result.length;i++){
+			for (int j=0;j<result[0].length;j++){
+				System.out.print(result[i][j]+";");
+
+			}
+			System.out.println();
+		}
 
 	}
 }
