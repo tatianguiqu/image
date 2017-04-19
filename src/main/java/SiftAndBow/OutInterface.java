@@ -69,9 +69,9 @@ public class OutInterface {
 			}
 		}
 
-		for (int i=0;i<5;i++){
-			System.out.println("Match "+i+":"+topFive.get(i));
-		}
+//		for (int i=0;i<5;i++){
+//			System.out.println("Match "+i+":"+topFive.get(i));
+//		}
 
 		return topFive;
 

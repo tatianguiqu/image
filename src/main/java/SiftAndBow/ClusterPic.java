@@ -186,7 +186,6 @@ public class ClusterPic {
 
 			long startP = System.nanoTime();
 			double[] word = extractor.getAPicBow(pic.getValue());
-
 			result.put(pic.getKey(),word);
 			long endP = System.nanoTime();
 			double msP = (endP - startP) / 1000000d;

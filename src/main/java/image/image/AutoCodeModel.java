@@ -18,7 +18,8 @@ import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 import org.nd4j.linalg.factory.Nd4j;
 
 public class AutoCodeModel {
-
+	protected static int height = 100;
+	protected static int width = 100;
 	private static  MultiLayerNetwork network;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -27,22 +28,22 @@ public class AutoCodeModel {
 
 		 
  
-//	        String pathOfClass=basePath+"data_x/data_Fdress";
-//	        File ClassPackets=new File(pathOfClass);
-//	        String[] listOfImageName=ClassPackets.list();
-//	        ImageKey[]listOfImage=new ImageKey[listOfImageName.length];
-//	        int number=0;
-//	     for(String imageFileName:listOfImageName){
-//	    	 ImageKey ik=new ImageKey();
-//	    	String pathOfImageFile=pathOfClass+"/"+imageFileName;
-//	    	ik.setPath(pathOfImageFile);
-//	    	ik.setC(imageFileName.split("_")[0]);
-//	    	ik.setImageKey(INDArrayToArray(getDescriptor(getImage1d(pathOfImageFile,100,100,1),4)));
-//	    	listOfImage[number]=ik;
-//	    	number++;
-//	     }
-//	     DatabaseController dc=new DatabaseController();
-//        dc.saveImageKey(listOfImage);
+	        String pathOfClass=basePath+"data_x/data_Fdress";
+	        File ClassPackets=new File(pathOfClass);
+	        String[] listOfImageName=ClassPackets.list();
+	        ImageKey[]listOfImage=new ImageKey[listOfImageName.length];
+	        int number=0;
+	     for(String imageFileName:listOfImageName){
+	    	 ImageKey ik=new ImageKey();
+	    	String pathOfImageFile=pathOfClass+"/"+imageFileName;
+	    	ik.setPath(pathOfImageFile);
+	    	ik.setC(imageFileName.split("_")[0]);
+	    	ik.setImageKey(INDArrayToArray(getDescriptor(getImage1d(pathOfImageFile,height,width,1),4)));
+	    	listOfImage[number]=ik;
+	    	number++;
+	     }
+	     DatabaseController dc=new DatabaseController();
+        dc.saveImageKey(listOfImage);
 
 	}
 	
@@ -52,14 +53,14 @@ public static void loadNetWork(String basePath)throws IOException {
 //	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"org.deeplearning4j.nn.multilayer.MultiLayerNetwork@6d654064updators.bin"));
 // System.out.print("loading end");
 	
- String confFile = new String(Files.readAllBytes(Paths.get(basePath+"8.json")));
-	 network=NetSaverLoaderUtils.loadNetworkAndParameters(confFile,basePath+"7.bin");
-	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"9.bin"));
+ String confFile = new String(Files.readAllBytes(Paths.get(basePath+"11.json")));
+	 network=NetSaverLoaderUtils.loadNetworkAndParameters(confFile,basePath+"10.bin");
+	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"12.bin"));
 System.out.print("loading end");
 
 }
 public static INDArray getImage(String path) throws IOException{
-	 NativeImageLoader nil=new NativeImageLoader(100,100, 3);
+	 NativeImageLoader nil=new NativeImageLoader(height,width, 3);
 	 ImagePreProcessingScaler scaler = new ImagePreProcessingScaler(0, 1);
 	 INDArray img=nil.asMatrix(new File(path));
 	 scaler.preProcess(img);

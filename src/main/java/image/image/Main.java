@@ -8,27 +8,42 @@ import java.util.Comparator;
 import java.util.Scanner;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import SiftAndBow.OutInterface;
+
 public class Main {
 	private static ArrayList<ImageKey> ikList;
-
+	private static String CForTest="";
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		String basePath = "D:/data/";
-
+		String basePath = "D:\\data\\";
+		OutInterface oi=new OutInterface();
+		oi.trainATest("D:\\data\\oitrain", "D:\\data\\data_x\\data_Fdress", 30);
 		AutoCodeModel.loadNetWork(basePath);
 
 		DatabaseController.loadDatabase();
-		ikList = DatabaseController.getImageKey("imagekey");
+		ikList = DatabaseController.getImageKey("imagekeyT");
 		DatabaseController.close();
-		File testFile = new File(basePath + "test/");
+		File testFile = new File(basePath + "test\\");
 		String[] listOftest = testFile.list();
+		double count=0.0;
 		for (String testimage : listOftest) {
-			String path = basePath + "test/" + testimage;
+			CForTest="";
+			String path = basePath + "test\\" + testimage;
 			INDArray descriptor = AutoCodeModel.getDescriptor(AutoCodeModel.getImage1d(path, 100, 100, 1), 4);
-			searchImage(descriptor);
+			if(!searchImage(descriptor)){
+				ArrayList<String> result=oi.getTopF(path);
+			if(result.get(0).indexOf(testimage.split("_")[0])>-1){
+				count++;
+			}
+			}
+			System.out.println(testimage.split("_")[0]);
+			if(testimage.split("_")[0].equals(CForTest)){
+				count++;
+			}
+			System.out.println();
 		}
-
+    System.out.println(count/listOftest.length);
 	}
 
 	public static boolean searchImage(INDArray descriptor) {
@@ -63,10 +78,19 @@ public class Main {
 	}
 	public static boolean judge(ImageForSort[] listOfImage){
 		boolean result=true;
-	for(int i=0;i<5;i++){
-		System.out.println(listOfImage[i].getPath()+listOfImage[i].getC()+listOfImage[i].getDistance());
-	}
-	System.out.println();
+		ImageForSort top1=listOfImage[0];
+		ImageForSort top2=listOfImage[1];
+		ImageForSort top3=listOfImage[2];
+		ImageForSort top4=listOfImage[3];
+		ImageForSort top5=listOfImage[4];
+		if(top1.getDistance()==0.0){
+			CForTest=top1.getC();
+		}else if((top1.getC().equals(top2.getC()))&&(top2.getC().equals(top3.getC()))&&(top3.getC().equals(top4.getC()))&&(top4.getC().equals(top5.getC()))){
+			CForTest=top1.getC();
+		}
+		else{
+			result=false;
+		}
 		return result;
 	}
 }

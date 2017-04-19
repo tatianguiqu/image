@@ -43,7 +43,7 @@ public class DatabaseController {
 		loadDatabase2();
 		  try{  
 			      for(int i=0;i<list.length;i++){
-			    	  stmt.executeUpdate(makeSql(list[i],"imagekey"));
+			    	  stmt.executeUpdate(makeSql(list[i],"imagekeyT"));
 			    	  if (i%100==0){
 			    		  conn.commit();   
 			    	  }
