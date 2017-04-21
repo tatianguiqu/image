@@ -54,8 +54,8 @@ public class SpectralClustering implements ClusterInterface {
 		}
 //		System.out.println(result);
 //		高斯相似度 TODO
-		result = Math.exp(-(result)/(2*sigma));
-//		result = Math.sqrt(result);
+//		result = Math.exp(-(result)/(2*sigma));
+		result = 1/(1+Math.sqrt(result));
 		return result;
 	}
 
@@ -173,6 +173,7 @@ public class SpectralClustering implements ClusterInterface {
 	private HashMap<Integer,List<Integer>> getKmeans(){
 
 		MyKmeans kmeans = new MyKmeans(K,NEigMatrix.getData());
+		kmeans.setThreshold(0.005);
 
 		double[][] center = kmeans.cluster(NEigMatrix.getData());
 		HashMap<Integer,List<Integer>> result = kmeans.getIndexMap();
@@ -230,7 +231,7 @@ public class SpectralClustering implements ClusterInterface {
 
 		this.normalizeEig();
 
-//		this.printMatrix(NEigMatrix);
+		this.printMatrix(NEigMatrix);
 
 		this.getKmeans();
 		this.culCenters();
@@ -251,8 +252,8 @@ public class SpectralClustering implements ClusterInterface {
 
 
 	public static void main(String[] args) {
-		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80}};
-		SpectralClustering testKm = new SpectralClustering(test,3,1);
+		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80},{200,200},{220,200}};
+		SpectralClustering testKm = new SpectralClustering(test,4,1);
 		double[][] result = testKm.cluster(test);
 
 //

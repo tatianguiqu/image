@@ -199,17 +199,64 @@ public class ClusterPic {
 	public double[][] getDictionary(){
 		return this.dictionary;
 	}
-//	TODO
-	/**
-	 * 将图片聚类到指定文件夹下
-	 * @param toPath 指定的目录
-	 */
-	public void cluster(String toPath){
 
 
+
+
+
+
+	public void setPicWordToCluster(String dir) throws IOException {
+
+		this.picWord = this.getPicWord(dir);
 
 	}
 
+//	TODO
+	/**
+	 * 将图片聚类到指定文件夹下,需要先执行setPicWordToCluster
+	 * @param toPath 指定的目录
+	 */
+	public void cluster(String toPath,int K){
+//		this.picWord = this.getPicWord();
+		int size = this.picWord.size();
+		int length = this.dictionary.length;
+		double[][] data = new double[size][length];
+		String[] dir = new String[size];
+		int index = 0;
+		for (Map.Entry<String,double[]> map:this.picWord.entrySet()
+			 ) {
+			dir[index] = map.getKey();
+			data[index] = map.getValue();
+			index++;
+
+		}
+		MyKmeans cluster = new MyKmeans(30,data);
+		cluster.cluster(data);
+		HashMap<Integer,List<Integer>> indexMap = cluster.getIndexMap();
+
+	}
+
+	/**
+	 * 将sourceP指定的文件拷贝到toDir目录下，按index的类别存放
+	 * @param sourceP
+	 * @param toDir
+	 * @param index
+	 */
+	private void copyToDir(String[] sourceP,String toDir,HashMap<Integer,List<Integer>> index){
+
+		for (Map.Entry<Integer,List<Integer>> pic:index.entrySet()){
+
+			String finalDir = toDir+"\\"+pic.getKey()+"\\";
+			for (int i=0;i<pic.getValue().size();i++){
+				String fromPath = sourceP[pic.getValue().get(i)];
+				//TODO
+
+			}
+
+		}
+
+
+	}
 	/**
 	 * 计算欧式距离
 	 * @param arr1
@@ -230,6 +277,8 @@ public class ClusterPic {
 	private void setWordTTXT(HashMap<String,double[]> map){
 
 	}
+
+
 
 
 

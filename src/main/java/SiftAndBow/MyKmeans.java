@@ -14,6 +14,7 @@ public class MyKmeans implements ClusterInterface {
 	private double[][] data ;
 	private int rows;
 	private int cols;
+	private double threshold = 1.0;
 
 
 //每个簇对应的数据的下标
@@ -25,6 +26,12 @@ public class MyKmeans implements ClusterInterface {
 	private double[][] centres;
 
 	public MyKmeans(){
+
+	}
+
+
+	public void setThreshold(double num){
+		this.threshold = num;
 
 	}
 
@@ -46,6 +53,7 @@ public class MyKmeans implements ClusterInterface {
 		this.K = K;
 
 	}
+
 
 	public HashMap<Integer,List<Integer>> getIndexMap(){
 
@@ -247,8 +255,8 @@ public class MyKmeans implements ClusterInterface {
 
 
 //若偏移量小于1，则不进行迭代
-		while(Math.abs(newD-old)>=1) {
-
+		while(Math.abs(newD-old)>=this.threshold) {
+//			System.out.println("K-means:caltulate dis of iterator"+Math.abs(newD-old)+"?");
 
 //			保留中心位置，清空记录，进行下次迭代
 			indexMap.clear();
@@ -340,10 +348,20 @@ public class MyKmeans implements ClusterInterface {
 	}
 
 	public static void main(String[] args){
-		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80}};
+		double[][] test = new double[][]{{0,0},{1,1},{20,20},{21,21},{70,70},{80,80},{500,501},{500,500}};
 		MyKmeans testKm = new MyKmeans();
-		testKm.setK(3);
+		testKm.setK(4);
 		testKm.cluster(test);
+		HashMap<Integer,List<Integer>> index = testKm.getIndexMap();
+		for (Map.Entry<Integer,List<Integer>> i:index.entrySet()
+			 ) {
+			System.out.println(i.getKey()+":");
+			for (int j=0;j<i.getValue().size();j++){
+				System.out.println(i.getValue().get(j)+";");
+			}
+			System.out.println();
+
+		}
 //		for(int i=0;i<data.length;i++){
 //			for(int j=0;j<data[0].length;j++){
 //				System.out.print(data[i][j]+";");
