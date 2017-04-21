@@ -4,9 +4,9 @@ package SiftAndBow;  /**
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,7 +216,7 @@ public class ClusterPic {
 	 * 将图片聚类到指定文件夹下,需要先执行setPicWordToCluster
 	 * @param toPath 指定的目录
 	 */
-	public void cluster(String toPath,int K){
+	public void cluster(String toPath,int K) throws IOException {
 //		this.picWord = this.getPicWord();
 		int size = this.picWord.size();
 		int length = this.dictionary.length;
@@ -230,9 +230,12 @@ public class ClusterPic {
 			index++;
 
 		}
-		MyKmeans cluster = new MyKmeans(30,data);
+		MyKmeans cluster = new MyKmeans(K,data);
 		cluster.cluster(data);
 		HashMap<Integer,List<Integer>> indexMap = cluster.getIndexMap();
+		this.copyToDir(dir,toPath,indexMap);
+
+
 
 	}
 
@@ -242,14 +245,27 @@ public class ClusterPic {
 	 * @param toDir
 	 * @param index
 	 */
-	private void copyToDir(String[] sourceP,String toDir,HashMap<Integer,List<Integer>> index){
+	private void copyToDir(String[] sourceP,String toDir,HashMap<Integer,List<Integer>> index) throws IOException {
 
 		for (Map.Entry<Integer,List<Integer>> pic:index.entrySet()){
 
-			String finalDir = toDir+"\\"+pic.getKey()+"\\";
+
+			String finalDir = toDir+"\\"+pic.getKey();
+			File dir = new File(finalDir);
+			dir.mkdir();
+			finalDir = finalDir+"\\";
 			for (int i=0;i<pic.getValue().size();i++){
 				String fromPath = sourceP[pic.getValue().get(i)];
-				//TODO
+				String toName = sourceP[pic.getValue().get(i)];
+				toName = toName.split("\\\\")[toName.split("\\\\").length-1];
+				String toPath = finalDir+toName;
+
+				System.out.println("from:"+fromPath);
+				Mat picture = Highgui.imread(fromPath);
+				System.out.println("to:"+toPath);
+				Highgui.imwrite(toPath,picture);
+
+
 
 			}
 
@@ -279,6 +295,12 @@ public class ClusterPic {
 	}
 
 
+	public static void main(String[] args) throws IOException {
+		ClusterPic test = new ClusterPic();
+		test.setDictionary("D:\\GraduationProject\\data_x\\TestBow\\train",30);
+		test.setPicWordToCluster("D:\\GraduationProject\\data_x\\TestBow\\test_1");
+		test.cluster("D:\\GraduationProject\\data_x\\TestBow\\Output",6);
+	}
 
 
 

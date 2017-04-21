@@ -77,10 +77,30 @@ public class OutInterface {
 
 	}
 
+	/**
+	 * 将图片聚类到指定目录下,示例模仿ClusterPic main方法，
+	 * @param trainDir	训练词典的目录
+	 * @param fromPath	需要聚类的图片的目录
+	 * @param toPath	聚类的目标目录
+	 * @param dirK	词典个数
+	 * @param clusterK 希望图片聚成类的个数
+	 * @throws IOException
+	 */
+	public void clusterToDir(String trainDir,String fromPath,String toPath,int dirK,int clusterK) throws IOException {
+		cluster = new ClusterPic();
+		cluster.setDictionary(trainDir,dirK);
+		cluster.setPicWordToCluster(fromPath);
+		cluster.cluster(toPath,clusterK);
+	};
+
 	public static void main(String[] args) throws IOException {
 		OutInterface test = new OutInterface();
-		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
-		ArrayList<String> tpf = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
+//		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
+//		ArrayList<String> tpf = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
+//		cluster.setAllPicMat();
+//		test.clusterToDir("D:\\GraduationProject\\data_x\\TestBow\\train");
+
+
 
 	}
 
