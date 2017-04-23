@@ -17,6 +17,8 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 import org.nd4j.linalg.factory.Nd4j;
 
+import data.DatabaseController;
+
 public class AutoCodeModel {
 	protected static int height = 100;
 	protected static int width = 100;

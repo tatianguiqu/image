@@ -1,46 +1,73 @@
-package image.image;
+package data;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import dataService.Dirservice;
+import dataService.WordService;
+import image.image.ImageKey;
 public class DatabaseController {
 	private static  Connection conn;
 	private static  Statement stmt;
+	static{
+
+		 try{
+	           Class.forName("com.mysql.jdbc.Driver");
+	        }catch(ClassNotFoundException e){
+	            e.printStackTrace();
+	        }
+		  String url="jdbc:mysql://localhost:3306/imagesearch";    //JDBC的URL   
+		  try {
+			conn = DriverManager.getConnection(url,"root",Path.secret);
+			conn.setAutoCommit(false);
+			stmt=conn.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		  
+		
+	}
 	public static void main(String[] args){
-	
+		Dirservice d=new DirServiceImp();
+		WordService w=new WordServiceImp();
+		d.saveDirToSQL(new double[][]{{1,2,3}});
+		HashMap<String, double[]> words=new HashMap<String, double[]>();
+		words.put("asad", new double[]{1,23});
+		w.saveWordToSQL(words);
+		close();
+	}
+	public static Statement getStmt(){
+		return stmt;
+	}
+	public static Statement getNewStmt(){
+		 Statement newStmt = null;
+		 try {
+			  newStmt = conn.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return newStmt;
+	}
+
+	public static void commit(){
+		try{   
+			conn.commit();  
+        }catch(Throwable e1){  
+            if(conn!=null){  
+                 try {  
+                     conn.rollback();  //数据库回滚
+                } catch (SQLException e2) {  
+                    e2.printStackTrace();  
+                }  
+            }  
+            throw new RuntimeException(e1);  
+          }
 
 	}
-	public static void loadDatabase(){
-		 try{
-	           Class.forName("com.mysql.jdbc.Driver");
-	        }catch(ClassNotFoundException e){
-	            e.printStackTrace();
-	        }
-		  String url="jdbc:mysql://localhost:3306/imagesearch";    //JDBC的URL   
-		  try {
-			conn = DriverManager.getConnection(url,"root","19950218xianni");
-			   stmt = conn.createStatement(); 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	private static void loadDatabase2(){
-		 try{
-	           Class.forName("com.mysql.jdbc.Driver");
-	        }catch(ClassNotFoundException e){
-	            e.printStackTrace();
-	        }
-		  String url="jdbc:mysql://localhost:3306/imagesearch";    //JDBC的URL   
-		  try {
-			conn = DriverManager.getConnection(url,"root","19950218xianni");
-			conn.setAutoCommit(false);
-			   stmt = conn.createStatement(); 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	public void saveImageKey(ImageKey[] list){
-		loadDatabase2();
 		  try{  
 			      for(int i=0;i<list.length;i++){
 			    	  stmt.executeUpdate(makeSql(list[i],"imagekeyT"));
@@ -61,16 +88,7 @@ public class DatabaseController {
 			            }  
 			    
 			  throw new RuntimeException(e1);  
-			          }finally{  
-			          if(conn!=null){  
-			                try { 
-			                	stmt.close();
-			                     conn.close();  
-			                 } catch (SQLException e3) {  
-			                     e3.printStackTrace();  
-			                }  
-			            }  
-			         }  
+			          }
 
 	}
 	public static ArrayList<ImageKey> getImageKey(String tableName){

@@ -9,6 +9,7 @@ import java.util.Scanner;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import SiftAndBow.OutInterface;
+import data.DatabaseController;
 
 public class Main {
 	private static ArrayList<ImageKey> ikList;
@@ -20,8 +21,6 @@ public class Main {
 		OutInterface oi=new OutInterface();
 		oi.trainATest("D:\\data\\oitrain", "D:\\data\\data_x\\data_Fdress", 30);
 		AutoCodeModel.loadNetWork(basePath);
-
-		DatabaseController.loadDatabase();
 		ikList = DatabaseController.getImageKey("imagekeyT");
 		DatabaseController.close();
 		File testFile = new File(basePath + "test\\");
@@ -44,6 +43,7 @@ public class Main {
 			System.out.println();
 		}
     System.out.println(count/listOftest.length);
+		
 	}
 
 	public static boolean searchImage(INDArray descriptor) {
