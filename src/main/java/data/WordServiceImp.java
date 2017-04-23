@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -38,6 +39,34 @@ public class WordServiceImp implements WordService{
 			}
 		}
 		DatabaseController.commit();
+	}
+
+	@Override
+	public HashMap<String, double[]> getWords() {
+		// TODO Auto-generated method stub
+		Statement stmt=DatabaseController.getNewStmt();
+		HashMap<String, double[]> words=new HashMap<String, double[]>();
+		String sql="select * from words";
+		
+		try {
+			ResultSet rs=stmt.executeQuery(sql);
+		
+			while(rs.next()){
+				String path=rs.getString(1);
+				String[] str=rs.getString(2).split(",");
+				double[] word=new double[str.length];
+				for(int i=0;i<str.length;i++){
+					word[i]=Double.valueOf(str[i]);
+				}
+				words.put(path, word);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return words;
 	}
 
 }

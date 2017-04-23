@@ -6,5 +6,5 @@ public interface Dirservice {
 	 * @param dir 词典
 	 */
 	public void saveDirToSQL(double[][] dir);
-
+	public double[][]  getDir();
 }
