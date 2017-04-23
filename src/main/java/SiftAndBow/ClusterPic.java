@@ -239,6 +239,24 @@ public class ClusterPic {
 
 	}
 
+	private void deleteFile(File file){
+		if(file.isFile() || file.list().length ==0)
+		{
+			file.delete();
+		}else{
+			File[] files = file.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				deleteFile(files[i]);
+				files[i].delete();
+			}
+
+
+			if(file.exists())         //如果文件本身就是目录 ，就要删除目录
+				file.delete();
+		}
+	}
+
+
 	/**
 	 * 将sourceP指定的文件拷贝到toDir目录下，按index的类别存放
 	 * @param sourceP
@@ -247,10 +265,18 @@ public class ClusterPic {
 	 */
 	private void copyToDir(String[] sourceP,String toDir,HashMap<Integer,List<Integer>> index) throws IOException {
 
+		File toClear = new File(toDir);
+		File[] fileList = toClear.listFiles();
+		for (File f:fileList){
+			this.deleteFile(f);
+		}
 		for (Map.Entry<Integer,List<Integer>> pic:index.entrySet()){
 
 
+
 			String finalDir = toDir+"\\"+pic.getKey();
+
+
 			File dir = new File(finalDir);
 			dir.mkdir();
 			finalDir = finalDir+"\\";
@@ -299,7 +325,7 @@ public class ClusterPic {
 		ClusterPic test = new ClusterPic();
 		test.setDictionary("D:\\GraduationProject\\data_x\\TestBow\\train",30);
 		test.setPicWordToCluster("D:\\GraduationProject\\data_x\\TestBow\\test_1");
-		test.cluster("D:\\GraduationProject\\data_x\\TestBow\\Output",6);
+		test.cluster("D:\\GraduationProject\\data_x\\TestBow\\Output",10);
 	}
 
 

@@ -1,5 +1,6 @@
 package SiftAndBow;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +96,23 @@ public class OutInterface {
 
 	public static void main(String[] args) throws IOException {
 		OutInterface test = new OutInterface();
-//		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
+		test.clusterToDir("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1","D:\\GraduationProject\\data_x\\TestBow\\Output",30,5);
+
+
+//		File toClear = new File("D:\\GraduationProject\\data_x\\TestBow\\Output");
+//		File[] fileList = toClear.listFiles();
+//		for (File f:fileList){
+//			f.delete();
+//		}
+
+
+
+
+
+
+
+
+		//		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
 //		ArrayList<String> tpf = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\159_7.jpg");
 //		cluster.setAllPicMat();
 //		test.clusterToDir("D:\\GraduationProject\\data_x\\TestBow\\train");
