@@ -45,6 +45,7 @@ public class AutoCodeModel {
 	    	number++;
 	     }
 	     DatabaseController dc=new DatabaseController();
+	     dc.setConn();
         dc.saveImageKey(listOfImage);
 
 	}
@@ -55,9 +56,9 @@ public static void loadNetWork(String basePath)throws IOException {
 //	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"org.deeplearning4j.nn.multilayer.MultiLayerNetwork@6d654064updators.bin"));
 // System.out.print("loading end");
 	
- String confFile = new String(Files.readAllBytes(Paths.get(basePath+"11.json")));
-	 network=NetSaverLoaderUtils.loadNetworkAndParameters(confFile,basePath+"10.bin");
-	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"12.bin"));
+ String confFile = new String(Files.readAllBytes(Paths.get(basePath+"8.json")));
+	 network=NetSaverLoaderUtils.loadNetworkAndParameters(confFile,basePath+"7.bin");
+	network.setUpdater(NetSaverLoaderUtils.loadUpdators(basePath+"9.bin"));
 System.out.print("loading end");
 
 }

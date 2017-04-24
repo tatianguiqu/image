@@ -36,7 +36,7 @@ public class DatabaseController {
 			cp.setJdbcUrl("jdbc:mysql://localhost:3306/imagesearch");
 			cp.setDriverClass("com.mysql.jdbc.Driver");
 			cp.setUser("root");
-			cp.setPassword("19950218xianni");
+			cp.setPassword(Path.secret);
 			cp.setMaxPoolSize(20);
 			cp.setMinPoolSize(5);
 			cp.setAcquireIncrement(5);
