@@ -29,6 +29,7 @@ public class SpectralClustering implements ClusterInterface {
 		this.data = new MyMatrix(data.clone());
 		this.K = k;
 		this.sigma = sigma;
+		System.out.println(data.length);
 		this.Wmatrix = new MyMatrix(data.length,data.length);
 		this.Dmatrix = new MyMatrix(data.length,data.length);
 		this.Lmatrix = new MyMatrix(data.length,data.length);
@@ -54,7 +55,7 @@ public class SpectralClustering implements ClusterInterface {
 		}
 //		System.out.println(result);
 //		高斯相似度 TODO
-		result = Math.exp(-(result)/(10000));
+		result = Math.exp(-(result)/(1));
 //		result = 1/(1+Math.sqrt(result));
 		return result;
 	}
@@ -224,13 +225,16 @@ public class SpectralClustering implements ClusterInterface {
 
 		this.culLmatrix();
 
-//		this.printMatrix(Lmatrix);
+		System.out.println("L:");
+		this.printMatrix(Lmatrix);
+
 		this.getKEIG();
 
 //		this.printMatrix(EigMatrix);
 
 		this.normalizeEig();
 
+		System.out.println("NE:");
 		this.printMatrix(NEigMatrix);
 
 		this.getKmeans();

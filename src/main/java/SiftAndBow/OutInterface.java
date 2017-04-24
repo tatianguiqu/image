@@ -96,7 +96,14 @@ public class OutInterface {
 
 	public static void main(String[] args) throws IOException {
 		OutInterface test = new OutInterface();
-		test.clusterToDir("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1","D:\\GraduationProject\\data_x\\TestBow\\Output",30,5);
+		test.trainATest("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1",30);
+		ArrayList<String> f = test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\126_39.jpg");
+		for (int i=0;i<f.size();i++){
+			System.out.println(f.get(i));
+		}
+
+
+		//		test.clusterToDir("D:\\GraduationProject\\data_x\\TestBow\\train","D:\\GraduationProject\\data_x\\TestBow\\test_1","D:\\GraduationProject\\data_x\\TestBow\\Output",30,5);
 
 
 //		File toClear = new File("D:\\GraduationProject\\data_x\\TestBow\\Output");

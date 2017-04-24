@@ -25,7 +25,10 @@ public class BowTrainer {
 
 		MyKmeans kmeans = new MyKmeans();
 		kmeans.setK(K);
+		kmeans.setThreshold(0.001);
 		dictionary = kmeans.cluster(data);
+//		SpectralClustering sp = new SpectralClustering(data,K,1);
+//		dictionary = sp.cluster(data);
 		return dictionary;
 
 
