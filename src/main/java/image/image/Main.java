@@ -21,8 +21,10 @@ public class Main {
 		OutInterface oi=new OutInterface();
 		oi.trainATest("D:\\data\\oitrain", "D:\\data\\data_x\\data_Fdress", 30);
 		AutoCodeModel.loadNetWork(basePath);
-		ikList = DatabaseController.getImageKey("imagekeyT");
-		DatabaseController.close();
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		ikList = dc.getImageKey("imagekeyT");
+		dc.close();
 		File testFile = new File(basePath + "test\\");
 		String[] listOftest = testFile.list();
 		double count=0.0;

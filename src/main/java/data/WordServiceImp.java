@@ -14,7 +14,9 @@ public class WordServiceImp implements WordService{
 	@Override
 	public void saveWordToSQL(HashMap<String, double[]> words) {
 		// TODO Auto-generated method stub
-		Statement stmt=DatabaseController.getStmt();
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
 		Iterator<?> iter = words.entrySet().iterator();
 		int count=0;
 		while(iter.hasNext()){
@@ -34,17 +36,20 @@ public class WordServiceImp implements WordService{
 			}
 			count++;
 			if(count==1000){
-				DatabaseController.commit();
+				dc.commit();
 				count=0;
 			}
 		}
-		DatabaseController.commit();
+		dc.commit();
+		dc.close();
 	}
 
 	@Override
 	public HashMap<String, double[]> getWords() {
 		// TODO Auto-generated method stub
-		Statement stmt=DatabaseController.getNewStmt();
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
 		HashMap<String, double[]> words=new HashMap<String, double[]>();
 		String sql="select * from words";
 		
@@ -61,7 +66,7 @@ public class WordServiceImp implements WordService{
 				words.put(path, word);
 			}
 			rs.close();
-			stmt.close();
+			dc.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

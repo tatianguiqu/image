@@ -10,7 +10,9 @@ public class DirServiceImp implements Dirservice {
 	@Override
 	public void saveDirToSQL(double[][] dir) {
 		// TODO Auto-generated method stub
-		Statement stmt=DatabaseController.getStmt();
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
 		for(int i=0;i<dir.length;i++){
 			String sql="insert into dir values('";
 			for(int j=0;j<dir[0].length;j++){
@@ -24,13 +26,16 @@ public class DirServiceImp implements Dirservice {
 				e.printStackTrace();
 			}
 		}
-		DatabaseController.commit();
+		dc.commit();
+		dc.close();
 	}
 
 	@Override
 	public double[][] getDir() {
 		// TODO Auto-generated method stub
-		Statement stmt=DatabaseController.getNewStmt();
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
 		double[][] dir=null;
 		String sql="select * from dir";
 		String sql0 = "select count(*) rec from (select * from dir) dd";  
@@ -53,7 +58,7 @@ public class DirServiceImp implements Dirservice {
 				i++;
 			}
 			rs.close();
-			stmt.close();
+			dc.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
