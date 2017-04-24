@@ -9,6 +9,7 @@ import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by QQQ on 2017/4/24.
@@ -41,12 +42,12 @@ public class DataSaving {
 		HashMap<String,double[]> words = new HashMap<>();
 		WordService ws = new WordServiceImp();
 //		File dir = new File(picPath);
-		File[] fileList = (File[]) cluster.getImgFiles(picPath).toArray();
+		List<File> fileList = cluster.getImgFiles(picPath);
 
 		int count = 0;
-		for (int i=0;i<fileList.length;i++,count++){
+		for (int i=0;i<fileList.size();i++,count++){
 			if (count<200){
-				String key = fileList[i].getPath();
+				String key = fileList.get(i).getPath();
 				double[] word = cluster.getPicWord(key).get(key);
 				words.put(key,word);
 			}else{
