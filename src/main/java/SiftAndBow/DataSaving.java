@@ -40,8 +40,8 @@ public class DataSaving {
 	public void saveWords(String picPath) throws IOException {
 		HashMap<String,double[]> words = new HashMap<>();
 		WordService ws = new WordServiceImp();
-		File dir = new File(picPath);
-		File[] fileList = dir.listFiles();
+//		File dir = new File(picPath);
+		File[] fileList = (File[]) cluster.getImgFiles(picPath).toArray();
 
 		int count = 0;
 		for (int i=0;i<fileList.length;i++,count++){
@@ -66,6 +66,7 @@ public class DataSaving {
 //		WordService ws = new WordServiceImp();
 
 	}
+
 
 	public static void main(String[] args) throws IOException {
 		DataSaving dt = new DataSaving();

@@ -31,7 +31,7 @@ public class ClusterPic {
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 	}
 
-	private List<File> getImgFiles(String path) throws IOException {
+	public List<File> getImgFiles(String path) throws IOException {
 //		ArrayList<File> files = new ArrayList<File>();
 		List<File> files = new ArrayList<File>();
 		List<File> dirs = new ArrayList<File>();
