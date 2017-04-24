@@ -22,6 +22,7 @@ public class WordServiceImp implements WordService{
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();
 			String key=(String) entry.getKey();
+			key=key.replaceAll("\\\\", "\\\\\\\\");
 			String sql="insert into words values('"+key+"','";
 			double[] val = (double[]) entry.getValue();
 			for(int i=0;i<val.length;i++){

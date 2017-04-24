@@ -54,7 +54,7 @@ public class DatabaseController {
 		// HashMap<String, double[]> words=w.getWords();
 		d.saveDirToSQL(new double[][] { { 1, 1, 1 } });
 		HashMap<String, double[]> words = new HashMap<String, double[]>();
-		words.put("121", new double[] { 12, 21, 1 });
+		words.put("d:d2\\d", new double[] { 12, 21, 1 });
 		w.saveWordToSQL(words);
 	}
 
