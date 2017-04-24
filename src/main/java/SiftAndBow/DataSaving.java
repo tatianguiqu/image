@@ -6,6 +6,7 @@ import dataService.Dirservice;
 import dataService.WordService;
 
 import javax.xml.crypto.Data;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -38,15 +39,38 @@ public class DataSaving {
 
 	public void saveWords(String picPath) throws IOException {
 		HashMap<String,double[]> words = new HashMap<>();
-		words = cluster.getPicWord(picPath);
 		WordService ws = new WordServiceImp();
-		ws.saveWordToSQL(words);
+		File dir = new File(picPath);
+		File[] fileList = dir.listFiles();
+
+		int count = 0;
+		for (int i=0;i<fileList.length;i++,count++){
+			if (count<200){
+				String key = fileList[i].getPath();
+				double[] word = cluster.getPicWord(key).get(key);
+				words.put(key,word);
+			}else{
+
+				ws.saveWordToSQL(words);
+				words.clear();
+				count =0;
+
+			}
+
+
+		}
+
+
+
+//		words = cluster.getPicWord(picPath);
+//		WordService ws = new WordServiceImp();
+
 	}
 
 	public static void main(String[] args) throws IOException {
 		DataSaving dt = new DataSaving();
 		dt.saveDir("D:\\GraduationProject\\data_x\\TestBow\\train",30);
-
+		dt.saveWords("D:\\GraduationProject\\data_x\\TestBow\\test_1");
 
 	}
 
