@@ -144,6 +144,10 @@ public class ClusterPic {
 	}
 
 
+	public void setDictionary(double[][] dic){
+		this.dictionary = dic;
+	}
+
 	private HashMap<String,double[][]> getPicMat(String dic) throws IOException {
 		HashMap<String,double[][]> result = new HashMap<>();
 		List<File> imgFiles = this.getImgFiles(dic);

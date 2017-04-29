@@ -9,21 +9,21 @@ import java.util.*;
  */
 public class MyKmeans implements ClusterInterface {
 //	K
-	private int K = 0;
+	protected int K = 0;
 //记录数据属性
-	private double[][] data ;
-	private int rows;
-	private int cols;
-	private double threshold = 1.0;
+	protected double[][] data ;
+	protected int rows;
+	protected int cols;
+	protected double threshold = 1.0;
 
 
 //每个簇对应的数据的下标
-	private HashMap<Integer,List<Integer>> indexMap = new HashMap<>();
+	protected HashMap<Integer,List<Integer>> indexMap = new HashMap<>();
 //记录数据对应的簇
-	private HashMap<Integer, List<List<Double>>> map = new HashMap<>();
+	protected HashMap<Integer, List<List<Double>>> map = new HashMap<>();
 
 //聚类中心
-	private double[][] centres;
+	protected double[][] centres;
 
 	public MyKmeans(){
 
@@ -66,7 +66,7 @@ public class MyKmeans implements ClusterInterface {
 		return this.map;
 	}
 
-	private void iniData(double[][] data){
+	protected void iniData(double[][] data){
 		if(data.length ==0)
 			throw new java.lang.IllegalArgumentException("Data shouldn't be empty");
 		if(data[0].length == 0){
@@ -99,7 +99,7 @@ public class MyKmeans implements ClusterInterface {
 	 * @param arr2
 	 * @return
 	 */
-	private double calDis(double[] arr1,double[] arr2){
+	protected double calDis(double[] arr1,double[] arr2){
 		double result = 0;
 		for(int i=0;i<cols;i++){
 			result += Math.pow((arr1[i]-arr2[i]),2);
@@ -112,7 +112,7 @@ public class MyKmeans implements ClusterInterface {
 	/**
 	 * 初始化聚类中心,采用随机中心的算法
 	 */
-	private void iniRanCentre(){
+	protected void iniRanCentre(){
 		Random ran = new Random();
 //		int[] label = new int[K];
 		String ifContain = "";
@@ -137,7 +137,7 @@ public class MyKmeans implements ClusterInterface {
 	 * @param arr
 	 * @return
 	 */
-	private int runCluster(double[] arr){
+	protected int runCluster(double[] arr){
 		double min = this.calDis(arr,centres[0]);
 		double temp;
 		int label = 0;
@@ -170,7 +170,7 @@ public class MyKmeans implements ClusterInterface {
 	 * 计算中心
 
 	 */
-	private void calMeans(){
+	protected void calMeans(){
 
 		for(int m=0;m<K;m++) {
 //			System.out.println(map.size());
@@ -200,7 +200,7 @@ public class MyKmeans implements ClusterInterface {
 	 * @param arry
 	 * @return
 	 */
-	private List<Double> convertDArray(double[] arry){
+	protected List<Double> convertDArray(double[] arry){
 		List<Double> list = new ArrayList<Double>();
 		for(int i=0;i<arry.length;i++){
 			list.add(arry[i]);
@@ -208,7 +208,7 @@ public class MyKmeans implements ClusterInterface {
 		return list;
 	}
 
-	private double[] convertDTd(Double[] d){
+	protected double[] convertDTd(Double[] d){
 		double[] result = new double[d.length];
 		for(int i=0;i<d.length;i++){
 			result[i] = d[i].doubleValue();
@@ -218,7 +218,7 @@ public class MyKmeans implements ClusterInterface {
 	}
 
 //	计算属于集合i的元素到集合中心的总距离
-	private double calTotalDis(){
+	protected double calTotalDis(){
 		double result = 0;
 		for(int i = 0;i<K;i++){
 
@@ -314,7 +314,7 @@ public class MyKmeans implements ClusterInterface {
 		return this.centres;
 	}
 
-	private String printFormat(double[] input){
+	protected String printFormat(double[] input){
 
 		String result = "";
 		for (int i=0;i<input.length;i++){
@@ -323,7 +323,7 @@ public class MyKmeans implements ClusterInterface {
 		return result;
 	}
 
-	private String printFormat(List<Double> input){
+	protected String printFormat(List<Double> input){
 
 		String result = "";
 		for (int i=0;i<input.size();i++){
@@ -332,7 +332,7 @@ public class MyKmeans implements ClusterInterface {
 		return result;
 	}
 
-	private void print(){
+	protected void print(){
 
 		for(int i=0;i<K;i++){
 			System.out.println(this.printFormat(centres[i])+":");
@@ -370,7 +370,6 @@ public class MyKmeans implements ClusterInterface {
 //		}
 
 	}
-
 
 
 }

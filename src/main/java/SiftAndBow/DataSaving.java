@@ -38,6 +38,14 @@ public class DataSaving {
 //		}
 	}
 
+	private void setDir(){
+
+		Dirservice ds = new DirServiceImp();
+		double[][] dir = ds.getDir();
+		cluster.setDictionary(dir);
+
+	}
+
 	public void saveWords(String picPath) throws IOException {
 		HashMap<String,double[]> words = new HashMap<>();
 		WordService ws = new WordServiceImp();
@@ -45,20 +53,21 @@ public class DataSaving {
 		List<File> fileList = cluster.getImgFiles(picPath);
 
 		int count = 0;
+		int tempC = 0;
+		System.out.println(fileList.size());
 		for (int i=0;i<fileList.size();i++,count++){
-			if (count<200){
-				String key = fileList.get(i).getPath();
-				double[] word = cluster.getPicWord(key).get(key);
-				words.put(key,word);
-			}else{
 
+			String key = fileList.get(i).getPath();
+			double[] word = cluster.getPicWord(key).get(key);
+			words.put(key,word);
+			if (count>=200||i == fileList.size()-1){
 				ws.saveWordToSQL(words);
 				words.clear();
 				count =0;
-
 			}
 
-
+			tempC++;
+			System.out.println(tempC);
 		}
 
 
@@ -71,8 +80,15 @@ public class DataSaving {
 
 	public static void main(String[] args) throws IOException {
 		DataSaving dt = new DataSaving();
-		dt.saveDir("D:\\GraduationProject\\data_x\\TestBow\\train",30);
-		dt.saveWords("D:\\GraduationProject\\data_x\\TestBow\\test_1");
+//		dt.saveDir("D:\\GraduationProject\\data_x\\TestBow\\train",50);
+		dt.setDir();
+
+		long startP = System.nanoTime();
+		dt.saveWords("D:\\GraduationProject\\data_x\\data_x");
+		long endP = System.nanoTime();
+		double msP = (endP - startP) / 1000000d;
+		System.out.printf("Saving all picture words cost %,.3f ms%n",msP);
+
 
 	}
 

@@ -23,7 +23,7 @@ public class BowTrainer {
 		if(K<=0)
 			throw new java.lang.IllegalArgumentException("Wrong input of K");
 
-		MyKmeans kmeans = new MyKmeans();
+		MyKmeansPP kmeans = new MyKmeansPP();
 		kmeans.setK(K);
 		kmeans.setThreshold(0.001);
 		dictionary = kmeans.cluster(data);
