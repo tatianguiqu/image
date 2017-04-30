@@ -1,25 +1,23 @@
 package image.image;
-public class ImageForSort {
-private String path;
-private String c;
-public String getC() {
-	return c;
-}
-public void setC(String c) {
-	this.c = c;
-}
+public class ImageForSort  extends ImageVO implements Comparable<ImageForSort> {
 private double distance;
-public String getPath() {
-	return path;
-}
-public void setPath(String path) {
-	this.path = path;
-}
+
 public double getDistance() {
 	return distance;
 }
 public void setDistance(double distance) {
 	this.distance = distance;
+}
+@Override
+public int compareTo(ImageForSort newImage) {
+	// TODO Auto-generated method stub
+	if(this.distance==newImage.distance)
+	return 0;
+	else if(this.getDistance()>newImage.getDistance()){
+		return 1;
+	}else{
+		return -1;
+	}
 }
 
 }

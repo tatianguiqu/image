@@ -25,13 +25,13 @@ public class ImgSearch {
 		return  allImg;
 	}
 
-	private double[][] getDic(){
+	public double[][] getDic(){
 		Dirservice ds = new DirServiceImp();
 		dic = ds.getDir();
 		return dic;
 	}
 
-	private void setDic(){
+	public void setDic(){
 		cluster.setDictionary(dic);
 	}
 
@@ -93,7 +93,7 @@ public class ImgSearch {
 		HashMap<String,double[]> result = test.getImgMap();
 		test.getDic();
 		test.setDic();
-		test.getTopF("D:\\GraduationProject\\data_x\\TestBow\\13_47.jpg");
+		test.getTopF("D:\\data\\data_x\\data_Fdress\\130_37.jpg");
 		System.out.println(result.size());
 	}
 

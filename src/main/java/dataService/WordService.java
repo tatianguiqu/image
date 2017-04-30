@@ -1,6 +1,9 @@
 package dataService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import image.image.ImageKey;
 
 public interface WordService {
 	/**
@@ -9,4 +12,5 @@ public interface WordService {
 	 */
 	public void saveWordToSQL(HashMap<String,double[]> words);
 	public HashMap<String,double[]>  getWords();
+	public ArrayList<ImageKey> getWordsArray();
 }
