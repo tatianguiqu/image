@@ -35,6 +35,55 @@ public class ImgSearch {
 		cluster.setDictionary(dic);
 	}
 
+	public ArrayList<String> getTopFByWords(double[] word){
+
+//		System.out.println(picPath+" word:");
+//		for (int i=0;i<picWord.length;i++){
+//
+//			System.out.print(picWord[i]+";");
+//
+//		}
+//		System.out.println();
+
+		double minest = 200000000;
+		ArrayList<Double> minDis = new ArrayList<>();
+		for (int i = 0;i<6;i++){
+			minDis.add(i, (double) 200000000);
+		}
+		ArrayList<String> topFive = new ArrayList<String>();
+		for(Map.Entry<String,double[]> pic:allImg.entrySet()
+				){
+			double temp = cluster.calDis(pic.getValue().clone(),word);
+
+//			if (pic.getKey().equals("D:\\GraduationProject\\data_x\\TestBow\\test_1\\13_47.jpg")){
+//				System.out.println(temp);
+//			}
+
+			if (temp<= minest){
+				minest = temp;
+//				System.out.println(temp+":"+pic.getKey());
+				topFive.add(0,pic.getKey());
+				minDis.add(0,temp);
+			}else{
+				for(int i =0;i<5;i++){
+					if(temp>minDis.get(i)&&temp<minDis.get(i+1)){
+						minDis.add(i+1,temp);
+						topFive.add(i+1,pic.getKey());
+					}
+
+				}
+			}
+		}
+
+		for (int i=0;i<5;i++){
+			System.out.println("Match "+i+":"+topFive.get(i));
+
+		}
+
+		return topFive;
+
+	}
+
 	public ArrayList<String> getTopF(String picPath) throws IOException {
 
 		HashMap<String,double[]> toFind = cluster.getPicWord(picPath);
