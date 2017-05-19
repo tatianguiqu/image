@@ -7,4 +7,5 @@ import image.image.ImageHash;
 public interface HashCodeService {
 	public void saveHashCodeToSQL(ArrayList<ImageHash> hashCodeList);
 	public ArrayList<ImageHash>  getHashCode();
+	public ArrayList<String> getPathByC(String c) ;
 }

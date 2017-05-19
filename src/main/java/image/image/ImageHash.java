@@ -1,6 +1,6 @@
 package image.image;
 
-public class ImageHash extends ImageVO{
+public class ImageHash extends ImagePO{
 private long hash;
 
 public long getHash() {

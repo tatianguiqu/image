@@ -33,7 +33,7 @@ public class DatabaseController {
 		// }
 		try {
 			cp = new ComboPooledDataSource();
-			cp.setJdbcUrl("jdbc:mysql://localhost:3306/imagesearch");
+			cp.setJdbcUrl("jdbc:mysql://localhost:3306/imagesearch2");
 			cp.setDriverClass("com.mysql.jdbc.Driver");
 			cp.setUser("root");
 			cp.setPassword(Path.secret);

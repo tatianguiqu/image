@@ -1,6 +1,6 @@
 package image.image;
 
-public class ImageVO {
+public class ImagePO {
 	private String path;
 	private String c;
 	public String getPath() {

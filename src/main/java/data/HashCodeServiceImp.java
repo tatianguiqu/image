@@ -26,7 +26,7 @@ public class HashCodeServiceImp implements HashCodeService{
 			imageHash=hashCodeList.get(i);
 			String path=imageHash.getPath();
 			path=path.replaceAll("\\\\", "\\\\\\\\");
-			String sql="insert into imagehash values('"+path+"',"+imageHash.getHash()+",'"+imageHash.getC()+"');";
+			String sql="insert into imagehash values(null,'"+path+"',"+imageHash.getHash()+",'"+imageHash.getC()+"');";
 			
 			try {
 				stmt.executeUpdate(sql);
@@ -59,10 +59,9 @@ public class HashCodeServiceImp implements HashCodeService{
 		
 			while(rs.next()){
 				ImageHash ih=new ImageHash();
-				
-				ih.setPath(rs.getString(1));
-				ih.setHash(rs.getLong(2));
-				ih.setC(rs.getString(3));
+				ih.setPath(rs.getString("path"));
+				ih.setHash(rs.getLong("hashcode"));
+				ih.setC(rs.getString("class"));
 				HashCodeList.add(ih);
 			}
 			rs.close();
@@ -73,5 +72,27 @@ public class HashCodeServiceImp implements HashCodeService{
 		}
 		return HashCodeList;
 	}
-
+	public ArrayList<String> getPathByC(String c) {
+		// TODO Auto-generated method stub
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
+		ArrayList<String> pathList=new ArrayList<String>();
+		String sql="select * from imagehash where class='"+c+"';";
+		
+		try {
+			ResultSet rs=stmt.executeQuery(sql);
+		
+			while(rs.next()){
+				
+				pathList.add(rs.getString("path"));
+			}
+			rs.close();
+			dc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pathList;
+	}
 }

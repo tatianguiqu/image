@@ -25,7 +25,7 @@ public class WordServiceImp implements WordService{
 			Map.Entry entry = (Map.Entry) iter.next();
 			String key=(String) entry.getKey();
 			key=key.replaceAll("\\\\", "\\\\\\\\");
-			String sql="insert into words values('"+key+"','";
+			String sql="insert into words values(null,'"+key+"','";
 			double[] val = (double[]) entry.getValue();
 			for(int i=0;i<val.length;i++){
 				sql=sql+val[i]+",";
@@ -60,8 +60,8 @@ public class WordServiceImp implements WordService{
 			ResultSet rs=stmt.executeQuery(sql);
 		
 			while(rs.next()){
-				String path=rs.getString(1);
-				String[] str=rs.getString(2).split(",");
+				String path=rs.getString("path");
+				String[] str=rs.getString("word").split(",");
 				double[] word=new double[str.length];
 				for(int i=0;i<str.length;i++){
 					word[i]=Double.valueOf(str[i]);
@@ -91,8 +91,8 @@ public class WordServiceImp implements WordService{
 		
 			while(rs.next()){
 				ImageKey ik=new ImageKey();
-				ik.setPath(rs.getString(1));
-				String[] str=rs.getString(2).split(",");
+				ik.setPath(rs.getString("path"));
+				String[] str=rs.getString("word").split(",");
 				double[] word=new double[str.length];
 				for(int i=0;i<str.length;i++){
 					word[i]=Double.valueOf(str[i]);
@@ -108,5 +108,35 @@ public class WordServiceImp implements WordService{
 		}
 		return words;
 	}
-
+	public ArrayList<ImageKey> getWord(String path) {
+		// TODO Auto-generated method stub
+		DatabaseController dc=new DatabaseController();
+		dc.setConn();
+		Statement stmt=dc.getStmt();
+		ArrayList<ImageKey> words=new ArrayList<ImageKey>();
+		path=path.replaceAll("\\\\", "\\\\\\\\");
+		String sql="select * from words where path='"+path+"';";
+		
+		try {
+			ResultSet rs=stmt.executeQuery(sql);
+		
+			while(rs.next()){
+				ImageKey ik=new ImageKey();
+				ik.setPath(rs.getString("path"));
+				String[] str=rs.getString("word").split(",");
+				double[] word=new double[str.length];
+				for(int i=0;i<str.length;i++){
+					word[i]=Double.valueOf(str[i]);
+				}
+				ik.setImageKey(word);
+				words.add(ik);
+			}
+			rs.close();
+			dc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return words;
+	}
 }

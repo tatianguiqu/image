@@ -75,10 +75,10 @@ public class ImgSearch {
 			}
 		}
 
-		for (int i=0;i<5;i++){
-			System.out.println("Match "+i+":"+topFive.get(i));
-
-		}
+//		for (int i=0;i<35;i++){
+//			System.out.println("Match "+i+":"+topFive.get(i)+"Dis:"+minDis.get(i));
+//
+//		}
 
 		return topFive;
 
@@ -127,7 +127,7 @@ public class ImgSearch {
 			}
 		}
 
-		for (int i=0;i<5;i++){
+		for (int i=0;i<20;i++){
 			System.out.println("Match "+i+":"+topFive.get(i));
 
 		}
@@ -142,8 +142,22 @@ public class ImgSearch {
 		HashMap<String,double[]> result = test.getImgMap();
 		test.getDic();
 		test.setDic();
-		test.getTopF("D:\\data\\data_x\\data_Fdress\\130_37.jpg");
-		System.out.println(result.size());
+		double[] input=test.cluster.getPicWord("D:\\data\\data_x\\data_Fdress\\130_37.jpg").get("D:\\data\\data_x\\data_Fdress\\130_37.jpg");
+//		 System.out.println("本次测试图片1万张");
+//		 System.out.println("测试查询1张图片");
+//		 System.out.println("重复查询100万次");
+//		 System.out.println("花费查询时间");
+		long startP = System.nanoTime();
+		for(int i=0;i<1000000;i++){
+			ArrayList<String>l =test.getTopFByWords(input);
+			
+			
+		}
+		long endP = System.nanoTime();
+		double msP = (endP - startP) / 1000000d;
+		System.out.println(msP+" ms");
+		
+	
 	}
 
 

@@ -1,5 +1,5 @@
 package image.image;
-public class ImageForSort  extends ImageVO implements Comparable<ImageForSort> {
+public class ImageForSort  extends ImagePO implements Comparable<ImageForSort> {
 private double distance;
 
 public double getDistance() {
